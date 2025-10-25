@@ -198,8 +198,8 @@ function renderCarousel(list){
   if(items.length===0){ heroSlides.innerHTML = `<div class="carousel-slide"><div style="padding:28px;color:var(--muted)">No featured books</div></div>`; return; }
   items.forEach(book=>{
     const slide = document.createElement('div'); slide.className='carousel-slide';
-    // Use a placeholder background if cover is not available or if it's a placeholder image
-    slide.style.background = `linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.02)), var(--panel)`;
+    // Set the book cover as the background image for the slide
+    slide.style.backgroundImage = `url(${book.cover})`;
     slide.innerHTML = `
       <div class="slide-text">
         <h3>${escapeHtml(book.title)}</h3>
