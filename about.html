@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About StoryWave</title>
+  <meta id="meta-theme-color" name="theme-color" content="#0b1220">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%234285F4' d='M28,2H6C4.9,2,4,2.9,4,4v24c0,1.1,0.9,2,2,2h22c1.1,0,2-0.9,2-2V4C30,2.9,29.1,2,28,2z M28,28H6V4h2v22c0,1.1,0.9,2,2,2h18V28z'/%3E%3Cpath fill='%238AB4F8' d='M8,28c-1.1,0-2-0.9-2-2V4h2v22C8,27.1,7.1,28,8,28z'/%3E%3Ctext x='18' y='21' font-family='Poppins, sans-serif' font-size='14' font-weight='bold' fill='white' text-anchor='middle'%3ESW%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-header { margin-top: 88px; text-align: center; }
+    .about-content {
+      max-width: 800px;
+      margin: 24px auto;
+      padding: 24px;
+      background: var(--card);
+      border-radius: var(--radius);
+      line-height: 1.8;
+    }
+    .about-content h2 {
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--panel);
+      padding-bottom: 8px;
+    }
+    .feature-list { list-style: none; padding-left: 0; }
+    .feature-list li {
+      padding-left: 25px;
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .feature-list li::before {
+      content: '✔';
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div id="floating-shapes" aria-hidden="true"></div>
+
+  <header id="siteHeader" class="site-header">
+    <div class="brand">
+      <a href="index.html" class="book-logo" aria-hidden="true"><div class="book-logo-page"></div><div class="book-logo-page"></div><div class="book-logo-page"></div></a>
+      <div class="brand-text"><div class="site-title">StoryWave</div><div class="muted">Explore. Read. Discover.</div></div>
+    </div>
+    <nav class="desktop-nav">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="download.html">My Library</a>
+      <a class="nav-link active" href="about.html">About</a>
+      <a class="nav-link" href="contact.html">Contact</a>
+      <a class="nav-link" href="profile.html">Profile</a>
+    </nav>
+    <div class="controls">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <header class="page-header">
+      <h1>About StoryWave</h1>
+      <p class="muted">Your gateway to a universe of stories.</p>
+    </header>
+
+    <div class="about-content">
+      <p><strong>StoryWave</strong> was born from a simple idea: to make the world's public domain literature accessible, beautiful, and engaging for everyone. We believe that stories are the waves that shape our understanding of the world, and our mission is to provide a modern platform for you to ride those waves.</p>
+      
+      <h2>Our Mission</h2>
+      <p>We aim to create an immersive and personalized reading experience. By leveraging the vast library of Project Gutenberg and modern web technologies, we offer a seamless interface where you can discover new worlds, track your progress, and connect with a community of fellow readers.</p>
+
+      <h2>Features</h2>
+      <ul class="feature-list">
+        <li><strong>Vast Library:</strong> Access thousands of free, public domain books.</li>
+        <li><strong>Personalized Experience:</strong> Save favorites, track your reading history, and get recommendations.</li>
+        <li><strong>Modern Reader:</strong> Enjoy a clean, customizable reading interface that works on any device.</li>
+        <li><strong>Community Ratings:</strong> See what others are saying and share your own thoughts on the books you read.</li>
+      </ul>
+
+      <h2>The Technology</h2>
+      <p>StoryWave is a modern web application built with HTML, CSS, and JavaScript, powered by Firebase for user authentication and data storage. All book content is sourced from the incredible <a href="https://www.gutenberg.org/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Project Gutenberg</a> API.</p>
+    </div>
+  </main>
+
+  <script>
+    // Basic theme toggle for this page
+    document.getElementById('themeToggle')?.addEventListener('click', ()=> {
+      const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>

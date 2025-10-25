@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StoryWave — AI & Public Books</title>
+  <meta id="meta-theme-color" name="theme-color" content="#0b1220">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%234285F4' d='M28,2H6C4.9,2,4,2.9,4,4v24c0,1.1,0.9,2,2,2h22c1.1,0,2-0.9,2-2V4C30,2.9,29.1,2,28,2z M28,28H6V4h2v22c0,1.1,0.9,2,2,2h18V28z'/%3E%3Cpath fill='%238AB4F8' d='M8,28c-1.1,0-2-0.9-2-2V4h2v22C8,27.1,7.1,28,8,28z'/%3E%3Ctext x='18' y='21' font-family='Poppins, sans-serif' font-size='14' font-weight='bold' fill='white' text-anchor='middle'%3ESW%3C/text%3E%3C/svg%3E">
+  <link rel="manifest" href="manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div id="floating-shapes" aria-hidden="true"></div>
+
+  <header id="siteHeader" class="site-header">
+    <div class="brand">
+      <div class="book-logo" aria-hidden="true">
+        <div class="book-logo-page"></div>
+        <div class="book-logo-page"></div>
+        <div class="book-logo-page"></div>
+      </div>
+      <div class="brand-text">
+        <div class="site-title">StoryWave</div>
+        <div class="muted">Explore. Read. Discover.</div>
+      </div>
+    </div>
+
+    <nav class="desktop-nav">
+      <a class="nav-link active" href="index.html">Home</a>
+      <a class="nav-link" href="download.html">My Library</a>
+      <a class="nav-link" href="about.html">About</a>
+      <a class="nav-link" href="contact.html">Contact</a>
+      <a class="nav-link" href="profile.html">Profile</a>
+    </nav>
+
+    <div class="controls">
+      <div class="search-wrap">
+        <input id="searchInput" class="search-input" placeholder="Search by title, author or genre (e.g. comic)" />
+        <button id="searchBtn" class="search-btn">Search</button>
+        <div id="suggestions" class="suggestions" style="display:none"></div>
+      </div>
+
+      <!-- This will hold the user profile info on desktop -->
+      <div id="userProfile" class="user-profile"></div>
+
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+      <button id="hamburger" class="hamburger" aria-label="Open menu"></button>
+    </div>
+  </header>
+
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true" style="background: var(--bg);">
+    <div id="mobileUser" class="mobile-user"></div>
+    <div id="mobileNavLinks" class="mobile-nav-links"></div>
+    <div id="mobileActions" class="mobile-actions"></div>
+  </div>
+
+  <main class="wrap">
+    <!-- carousel -->
+    <section class="hero" aria-label="Featured stories">
+      <div id="heroSlides" class="carousel-track"></div>
+    </section>
+
+    <!-- last reads -->
+    <section id="lastReadsSection" class="last-reads" aria-label="Last Read" style="display:none">
+      <div class="section-header">
+        <h3>Last Read</h3>
+        <div>
+          <button id="clearLastReads" class="btn small">Clear Data</button>
+        </div>
+      </div>
+      <div id="lastReadsContainer" class="last-reads-row"></div>
+    </section>
+
+    <!-- favorites -->
+    <section id="favoritesSection" class="favorites-section" aria-label="My Favorites" style="display:none">
+      <div class="section-header">
+        <h3>My Favorites</h3>
+        <div>
+          <button id="clearFavoritesBtn" class="btn small">Clear All</button>
+        </div>
+      </div>
+      <div id="favoritesContainer" class="favorites-row"></div>
+    </section>
+
+    <!-- explore -->
+    <section class="explore-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <h3>Explore</h3>
+      </div>
+
+      <div class="genre-filters" id="genreFilters" style="margin-top:10px;margin-bottom:8px">
+        <button class="genre-btn active" data-genre="all">All</button>
+        <button class="genre-btn" data-genre="romance">Romance</button>
+        <button class="genre-btn" data-genre="fantasy">Fantasy</button>
+        <button class="genre-btn" data-genre="horror">Horror</button>
+        <button class="genre-btn" data-genre="comics">Comics</button>
+        <button class="genre-btn" data-genre="adventure">Adventure</button>
+        <button class="genre-btn" data-genre="mystery">Mystery</button>
+      </div>
+
+      <div id="cardsArea" class="cards-grid" aria-live="polite"></div>
+
+      <div class="load-more-wrap">
+        <button id="loadMoreBtn" class="btn">Load more</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- reader modal -->
+  <div id="readerModal" class="reader-modal" aria-hidden="true">
+    <button id="readerClose" class="reader-close" title="Close reader">✕</button>
+    <div id="readerPanel" class="modal-panel reader-panel">
+      <div class="reader-header">
+        <div>
+          <strong id="readerTitle">Reading</strong>
+          <div class="muted" id="readerAuthor"></div>
+        </div>
+        <div class="reader-controls">
+          <label class="muted">Font</label>
+          <select id="readerFont" class="reader-font">
+            <option value="18">18px</option>
+            <option value="20" selected>20px</option>
+            <option value="22">22px</option>
+            <option value="24">24px</option>
+            <option value="26">26px</option>
+          </select>
+          <button id="readerThemeBtn" class="btn secondary">Reader theme</button>
+        </div>
+      </div>
+
+      <div id="readerControls" class="reader-nav">
+        <button id="prevChapter" class="btn small">◀ Prev</button>
+        <div id="chapterIndicator" class="muted" style="min-width:160px;text-align:center">Chapter —</div>
+        <button id="nextChapter" class="btn small">Next ▶</button>
+        <div style="margin-left:auto" class="muted">Progress saved</div>
+      </div>
+
+      <div id="readerFrame" class="reader-frame">
+        <!-- epub.js will render the book content here -->
+        <div id="epub-viewer"></div>
+        <div id="readerText" class="reader-text" role="article" aria-live="polite" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- details modal -->
+  <div id="detailsModal" class="modal" aria-hidden="true">
+    <div class="modal-panel" style="position:relative">
+      <button id="detailsClose" class="modal-panel modal-close" title="Close">✕</button>
+      <div id="detailsBody"></div>
+      <!-- Rating Section -->
+      <div id="bookRatingSection" style="margin-top:12px; text-align:center;">
+        <div id="averageRatingDisplay" class="muted"></div>
+        <div id="userRatingInput" class="rating-stars">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+        <div id="ratingMessage" class="muted small" style="margin-top:5px;"></div>
+      </div>
+      <!-- Recent Ratings List -->
+      <div id="recentRatingsSection" style="margin-top: 20px; border-top: 1px solid var(--panel); padding-top: 15px; display: none;">
+        <h4 style="text-align: left; margin-bottom: 10px;">Recent Ratings</h4>
+        <div id="recentRatingsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- auth modal -->
+  <div id="authModal" class="modal auth-modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h2>Welcome to StoryWave</h2>
+      <p class="muted">Sign up or log in to save your progress and access more features.</p>
+
+      <div class="auth-input-group">
+        <label for="username">Username (for sign up)</label>
+        <input id="username" type="text" placeholder="Choose a username" />
+      </div>
+
+      <div class="auth-input-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="your@email.com" />
+      </div>
+      <div class="auth-input-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="********" />
+      </div>
+
+      <div class="auth-buttons">
+        <button id="signupBtn" class="btn">Sign Up</button>
+        <button id="loginBtn" class="btn secondary">Log In</button>
+      </div>
+
+      <div class="auth-divider">
+        <span>or</span>
+      </div>
+
+      <div class="auth-buttons">
+        <button id="googleSignIn" class="btn">Continue with Google</button>
+        <button id="guestBtn" class="btn secondary">Continue as Guest</button>
+      </div>
+
+      <div id="authMessage" class="auth-message" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-column">
+      <strong>Fountains Data International</strong>
+      <div class="muted">&copy; <span id="year"></span> All Rights Reserved</div>
+    </div>
+    <div class="footer-column" style="text-align: right;">
+      <div class="muted">A Project By</div>
+      <strong>CEO Solomon Gospel</strong>
+    </div>
+    <div class="footer-disclaimer">This platform provides access to books from the public domain via Project Gutenberg. We do not claim ownership of this content.</div>
+  </footer>
+
+  <button id="backTop" class="back-top" title="Back to top">↑</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

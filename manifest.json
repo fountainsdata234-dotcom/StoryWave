@@ -1,0 +1,21 @@
+{
+  "name": "StoryWave",
+  "short_name": "StoryWave",
+  "description": "Explore, Read, and Discover thousands of public domain books.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%234285F4' d='M28,2H6C4.9,2,4,2.9,4,4v24c0,1.1,0.9,2,2,2h22c1.1,0,2-0.9,2-2V4C30,2.9,29.1,2,28,2z M28,28H6V4h2v22c0,1.1,0.9,2,2,2h18V28z'/%3E%3Cpath fill='%238AB4F8' d='M8,28c-1.1,0-2-0.9-2-2V4h2v22C8,27.1,7.1,28,8,28z'/%3E%3Ctext x='18' y='21' font-family='Poppins, sans-serif' font-size='14' font-weight='bold' fill='white' text-anchor='middle'%3ESW%3C/text%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "https://via.placeholder.com/192x192.png?text=SW",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
