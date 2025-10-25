@@ -158,7 +158,7 @@ async function fetchInitialBooks(topic = '') {
       if (!epubUrl && !htmlUrl) return null;
       const author = item.authors[0] ? item.authors[0].name : 'Unknown Author';
       const cover = item.formats['image/jpeg'] || `https://via.placeholder.com/128x180?text=${escapeHtml(item.title)}`;
-      return { id: item.id, title: item.title, author, genre: mapGutenbergBookshelvesToGenre(item.bookshelves), cover, summary: `A classic book from Project Gutenberg.`, epubUrl: htmlUrl || epubUrl, isEpub: false };
+      return { id: item.id, title: item.title, author, genre: mapGutenbergBookshelvesToGenre(item.bookshelves), cover, summary: `A classic book from Project Gutenberg.`, epubUrl: epubUrl || htmlUrl, isEpub: !!epubUrl };
     }).filter(Boolean);
 
     ALL_BOOKS = shuffleArray(readableBooks); // Shuffle the initial results for variety
@@ -553,7 +553,7 @@ async function openReaderWithContent(book) {
   // Reverting to iframe to avoid CORS issues when fetching content directly.
   if (book.isEpub) {
     readerText.style.display = 'none';
-    epubViewer.style.display = 'block';
+    epubViewer.style.display = 'flex'; // Use flex to center the loading message
     epubViewer.innerHTML = '<p class="muted" style="padding: 20px;">Loading book...</p>';
     document.getElementById('readerControls').style.display = 'flex';
 
@@ -583,7 +583,7 @@ async function openReaderWithContent(book) {
   } else {
     // Fallback to iframe for non-epub books
     readerText.style.display = 'none';
-    epubViewer.style.display = 'block';
+    epubViewer.style.display = 'flex';
     epubViewer.innerHTML = ''; // Clear previous content
     const iframe = document.createElement('iframe');
     iframe.src = book.epubUrl;
